@@ -1,0 +1,15 @@
+.header {
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #D3D3D3;
+    height: 75px;
+    width: 100%;
+}
+
+.header__right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

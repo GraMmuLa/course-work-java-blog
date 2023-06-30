@@ -1,0 +1,29 @@
+.search {
+    margin-right: 25px;
+}
+
+.search__input {
+    background: none;
+    border: none;
+    border-bottom: 2px solid darkgray;
+    outline: none;
+    margin-right: 15px;
+    font-weight: 700;
+}
+
+
+.search__button {
+    background: none;
+    border: 2px solid darkgray;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: darkgray;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.search__button:hover {
+    background: #ffffff;
+}
+
