@@ -1,0 +1,28 @@
+.footer {
+}
+
+.footer__topBar {
+    background: #1b253d;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer__header {
+    color: #ffffff;
+}
+
+.footer__block {
+}
+
+.footer__help {
+
+}
+
+.footer__contacts {
+
+}
+
+.footer__bottomBar {
+    background: #121928;
+}

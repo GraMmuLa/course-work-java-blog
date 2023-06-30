@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from "../../../models/link";
-import {Props} from "../../../models/props";
+import {Link} from "../../types/link";
 import classes from "./NavList.module.css";
+import {List} from "../../types/list";
 
-const NavList: React.FC<Props<Link>> = (props:Props<Link>) => {
+const NavList: React.FC<List<Link>> = (props:List<Link>) => {
     return (
         <nav className={classes.navigation}>
             <ul className={classes.navigation__list}>

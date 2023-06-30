@@ -1,0 +1,20 @@
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list__item {
+
+}
+
+.list__link {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color, .3s;
+}
+
+.list__link:hover {
+    color: darkgray;
+}

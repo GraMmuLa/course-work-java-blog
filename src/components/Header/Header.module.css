@@ -1,10 +1,8 @@
 .header {
-    position: fixed;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
     background: #D3D3D3;
-    height: 75px;
+    height: 150px;
     width: 100%;
 }
 
@@ -12,4 +10,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.header__topBar {
+    background-color: #1b253d;
+    color: #ffffff;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    align-items: center;
+}
+
+.header__bottomBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
 }
