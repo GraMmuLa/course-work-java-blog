@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from "../../types/link";
+import {Link} from "../../../types/link";
 import classes from "./NavList.module.css";
-import {List} from "../../types/list";
+import {List} from "../../../types/list";
 
 const NavList: React.FC<List<Link>> = (props:List<Link>) => {
     return (

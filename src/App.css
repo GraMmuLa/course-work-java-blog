@@ -26,3 +26,11 @@ html, body {
     flex: 1 1 auto;
 }
 
+.styledInput {
+    font-size: 16px;
+    font-weight: 700;
+    outline: none;
+    border: 2px solid #777777;
+    border-radius: 7px;
+    padding: 10px;
+}

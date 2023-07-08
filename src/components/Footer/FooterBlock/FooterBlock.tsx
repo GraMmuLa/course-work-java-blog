@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from "../../types/link";
+import {Link} from "../../../types/link";
 import FooterList from "../FooterList/FooterList";
-import {List} from "../../types/list";
+import {List} from "../../../types/list";
 import classes from "../Footer.module.css";
 
 const FooterBlock: React.FC<List<Link>> = (props: List<Link>) => {

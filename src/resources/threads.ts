@@ -1,5 +1,6 @@
-import {Link} from "../components/types/link";
+import {Link} from "../types/link";
 
+//TODO
 export const threads: Link[] = [
     {name: "All threads", value: "#"},
     {name: "Design", value: "#"},
