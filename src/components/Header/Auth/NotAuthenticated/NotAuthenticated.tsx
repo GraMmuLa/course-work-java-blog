@@ -7,7 +7,7 @@ const NotAuthenticated: React.FC = () => {
         <div className={classes.auth}>
             <Link to="/login" className="link">Log In</Link>
             <hr className={classes.auth__separator}/>
-            <a href="#" className="link">Register</a>
+            <Link to="/register" className="link">Register</Link>
         </div>
     );
 };

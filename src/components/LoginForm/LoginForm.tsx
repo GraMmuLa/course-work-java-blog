@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await (axios.post("http://localhost:8080/api/auth", {
+            const response = await (axios.post("http://localhost:8080/api/auth/login", {
                 username: loginText,
                 password: password
             }, {

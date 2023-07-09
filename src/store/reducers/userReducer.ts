@@ -22,10 +22,17 @@ export const userSlice = createSlice({
             console.log(decoded);
             state.username = decoded.sub;
             state.roles = decoded.roles;
+            state.email = decoded.email;
             state.loggedIn = true;
         },
-        register(state: User, action: PayloadAction<User>) {
-
+        register(state: User, action: PayloadAction<JwtResponse>) {
+            const token = action.payload.token;
+            const decoded: DecodedJwtToken = jwtDecode(token);
+            console.log(decoded);
+            state.username = decoded.sub;
+            state.email = decoded.email;
+            state.roles = decoded.roles;
+            state.loggedIn = true;
         }
     },
     extraReducers: {
