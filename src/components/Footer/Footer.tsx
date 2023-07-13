@@ -1,7 +1,5 @@
 import React from 'react';
 import classes from "./Footer.module.css";
-import FooterList from "./FooterList/FooterList";
-import {Link} from "../../types/link";
 import FooterBlock from "./FooterBlock/FooterBlock";
 import {threads} from "../../resources/threads";
 

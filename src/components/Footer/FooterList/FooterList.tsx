@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from "../../../types/link";
 import classes from "./FooterList.module.css";
 import {List} from "../../../types/list";
+import KeyValue from "../../../types/keyValue";
 
-const FooterList:React.FC<List<Link>> = (props: List<Link>) => {
+const FooterList:React.FC<List<KeyValue<string, string>>> = (props: List<KeyValue<string, string>>) => {
     return (
         <ul className={classes.list}>
             {props.items.map(x=> (

@@ -5,5 +5,6 @@ export default interface DecodedJwtToken {
     iat: number,
     exp: number,
     roles: string[],
-    email: string
+    email: string,
+    userId: number
 }

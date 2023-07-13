@@ -1,7 +1,7 @@
-import {Link} from "../types/link";
+import KeyValue from "../types/keyValue";
 
 //TODO
-export const threads: Link[] = [
+export const threads: KeyValue<string, string>[] = [
     {name: "All threads", value: "#"},
     {name: "Design", value: "#"},
     {name: "Development", value: "#"},

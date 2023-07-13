@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Header.module.css';
 import NavList from "./NavList/NavList";
-import {Link} from "../../types/link";
 import Search from "./Search/Search";
 import Authenticated from "./Auth/Authenticated/Authenticated";
 import {threads} from "../../resources/threads";
@@ -11,6 +10,13 @@ import {useAppSelector} from "../../hooks/redux";
 const Header: React.FC = () => {
 
     const {loggedIn} = useAppSelector(state=>state.userReducer);
+
+    const {roles} = useAppSelector(x=>x.userReducer);
+
+    const addPostLink = {name: "Add Post", value:"post/add"};
+
+    if(roles.includes("ADMIN") && !threads.includes(addPostLink))
+        threads.push({name: "Add Post", value:"post/add"});
 
     return (
         <header className={classes.header}>

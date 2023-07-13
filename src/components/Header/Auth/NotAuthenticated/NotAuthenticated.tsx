@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from "./NotAuthenticated.module.css";
-import {Link, NavLink, Route, Routes} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const NotAuthenticated: React.FC = () => {
     return (

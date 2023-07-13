@@ -5,8 +5,9 @@ import DecodedJwtToken from "../../types/decodedJwtToken";
 import JwtResponse from "../../types/jwtResponse";
 
 const initialState: User = {
+    id: 0,
     username: "",
-    password: "",
+    password: null,
     email: "",
     roles: [],
     loggedIn: false
@@ -20,6 +21,7 @@ export const userSlice = createSlice({
             const token = action.payload.token;
             const decoded: DecodedJwtToken = jwtDecode(token);
             console.log(decoded);
+            state.id = decoded.userId;
             state.username = decoded.sub;
             state.roles = decoded.roles;
             state.email = decoded.email;

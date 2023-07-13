@@ -1,22 +1,13 @@
 import React from 'react';
-import {Link} from "../../../types/link";
 import classes from "./NavList.module.css";
 import {List} from "../../../types/list";
+import LinkList from "../../LinkList/LinkList";
+import KeyValue from "../../../types/keyValue";
 
-const NavList: React.FC<List<Link>> = (props:List<Link>) => {
+const NavList: React.FC<List<KeyValue<string, string>>> = (props:List<KeyValue<string, string>>) => {
     return (
         <nav className={classes.navigation}>
-            <ul className={classes.navigation__list}>
-                {props.items.map(
-                    x=> {
-                        return (
-                            <li className={classes.navigation__item}>
-                                <a className="link" href={x.value}>{x.name}</a>
-                            </li>
-                        );
-                    }
-                )}
-            </ul>
+            <LinkList className={classes.navigation__list} itemClassName={classes.navigation__item} items={props.items}></LinkList>
         </nav>
     );
 };
