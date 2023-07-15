@@ -1,8 +1,8 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import User from "../../types/user";
+import {createSlice, PayloadAction, SliceCaseReducers} from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
-import DecodedJwtToken from "../../types/decodedJwtToken";
-import JwtResponse from "../../types/jwtResponse";
+import {User} from "../../types/model/user";
+import {DecodedJwtToken} from "../../types/additional/decodedJwtToken";
+import {JwtObject} from "../../types/additional/jwtObject";
 
 const initialState: User = {
     id: 0,
@@ -13,31 +13,23 @@ const initialState: User = {
     loggedIn: false
 }
 
-export const userSlice = createSlice({
+export const userSlice = createSlice<User, SliceCaseReducers<User>, string>({
     name: "userReducer",
     initialState: initialState,
     reducers: {
-        login(state: User, action: PayloadAction<JwtResponse>) {
-            const token = action.payload.token;
-            const decoded: DecodedJwtToken = jwtDecode(token);
-            console.log(decoded);
-            state.id = decoded.userId;
-            state.username = decoded.sub;
-            state.roles = decoded.roles;
-            state.email = decoded.email;
-            state.loggedIn = true;
-        },
-        register(state: User, action: PayloadAction<JwtResponse>) {
-            const token = action.payload.token;
-            const decoded: DecodedJwtToken = jwtDecode(token);
-            console.log(decoded);
-            state.username = decoded.sub;
-            state.email = decoded.email;
-            state.roles = decoded.roles;
-            state.loggedIn = true;
+        init(state: User, action: PayloadAction<JwtObject>) {
+            try {
+                const token = action.payload.token;
+                const decoded: DecodedJwtToken = jwtDecode(token);
+                state.id = decoded.userId;
+                state.username = decoded.sub;
+                state.email = decoded.email;
+                state.roles = decoded.roles;
+                state.loggedIn = true;
+            } catch (e) {
+                console.log("Invalid token");
+            }
         }
-    },
-    extraReducers: {
     }
 });
 

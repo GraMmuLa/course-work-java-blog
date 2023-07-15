@@ -1,8 +1,8 @@
-import KeyValue from "../types/keyValue";
+import {KeyValue} from "../types/additional/keyValue";
 
 //TODO
 export const threads: KeyValue<string, string>[] = [
-    {name: "All threads", value: "#"},
+    {name: "All threads", value: "/"},
     {name: "Design", value: "#"},
     {name: "Development", value: "#"},
     {name: "Marketing", value: "#"},

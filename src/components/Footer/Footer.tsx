@@ -1,10 +1,11 @@
 import React from 'react';
 import classes from "./Footer.module.css";
-import FooterBlock from "./FooterBlock/FooterBlock";
 import {threads} from "../../resources/threads";
+import LinkList from "../LinkList/LinkList";
 
 const Footer: React.FC = () => {
 
+    //TODO
     const footerBlocks= [
         {
             name: "Account",
@@ -39,7 +40,11 @@ const Footer: React.FC = () => {
         <footer>
             <div className={classes.footer__topBar}>
                 {
-                    footerBlocks.map(x=><FooterBlock name={x.name} items={x.items}/>)
+                    footerBlocks.map(x=>
+                        <div>
+                            <h5 className={classes.footer__header}>{x.name}</h5>
+                            <LinkList items={x.items} className={classes.footer__block}/>
+                        </div>)
                 }
             </div>
             <div className={classes.footer__bottomBar}></div>

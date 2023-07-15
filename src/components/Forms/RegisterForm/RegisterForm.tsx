@@ -1,35 +1,36 @@
 import React, {useState} from 'react';
 import {Alert, Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
-import axios from "axios";
-import JwtResponse from "../../../types/jwtResponse";
+import {JwtObject} from "../../../types/additional/jwtObject";
 import {useAppDispatch} from "../../../hooks/redux";
 import {userSlice} from "../../../store/reducers/userReducer";
-import {useCookies} from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import {SessionValues} from "../../../resources/sessionValues";
+import {useRegisterUserMutation} from "../../../store/api/userApi";
 
 const RegisterForm: React.FC = () => {
 
-    const [login, setLogin] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    const [invalidUsername, setInvalidUsername] = useState(false);
-    const [invalidPassword, setInvalidPassword] = useState(false);
+    const [invalidUsername, setInvalidUsername] = useState<boolean>(false);
+    const [invalidPassword, setInvalidPassword] = useState<boolean>(false);
 
     const passwordExpression: RegExp = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     const usernameExpression: RegExp = /[a-zA-Z0-9!#$^&*%]{6,16}$/
 
     const dispatch = useAppDispatch();
 
-    const {register} = userSlice.actions;
+    const {init} = userSlice.actions;
+
+    const [registerUser] = useRegisterUserMutation();
 
     const navigate = useNavigate();
 
-    const registerUser = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(!usernameExpression.test(login)) {
+        if(!usernameExpression.test(username)) {
             if(!passwordExpression.test(password))
                 setInvalidPassword(true);
             setInvalidUsername(true);
@@ -41,37 +42,28 @@ const RegisterForm: React.FC = () => {
         }
 
         try {
-            const response = await (axios.post("http://localhost:8080/api/auth/register", {
-                username: login,
-                email: email,
-                password: password
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "*/*",
-                }
-            }));
+            const response: JwtObject = await registerUser({username: username, email: email, password: password}).unwrap();
 
-            const data: JwtResponse = response.data;
+            if(response) {
+                dispatch(init(response));
 
-            dispatch(register(data));
+                sessionStorage.setItem(SessionValues.JWT_AUTHORIZATION, response.token);
 
-            sessionStorage.setItem(SessionValues.JWT_AUTHORIZATION, data.token);
+                if(response)
+                    navigate("/");
+            }
 
-            if(response.data)
-                navigate("/");
-
-        } catch (e) {
-            console.log("Something went wrong... in RegisterForm" + e);
+        } catch (e: any) {
+            console.log("Something went wrong... in RegisterForm" + e.message);
         }
     }
 
     return (
-        <Form className="container" onSubmit={(e)=>{registerUser(e)}}>
+        <Form className="container" onSubmit={(e)=>{handleSubmit(e)}}>
             <h2 className="mb-3">Register</h2>
             <FormGroup className="mb-3">
                 <FormLabel>Login</FormLabel>
-                <FormControl placeholder="Username" type="text" onChange={(e)=>{setLogin(e.target.value)}}/>
+                <FormControl placeholder="Username" type="text" onChange={(e)=>{setUsername(e.target.value)}}/>
             </FormGroup>
             {
                 invalidUsername

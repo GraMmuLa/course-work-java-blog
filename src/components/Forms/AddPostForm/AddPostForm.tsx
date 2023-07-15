@@ -1,35 +1,32 @@
 import React, {useState} from 'react';
 import {Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
-import axios from "axios";
 import {useAppSelector} from "../../../hooks/redux";
-import header from "../../Header/Header";
 import {SessionValues} from "../../../resources/sessionValues";
+import {User} from "../../../types/model/user";
+import {useAddPostMutation} from "../../../store/api/postApi";
 
 const AddPostForm: React.FC = () => {
 
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [title, setTitle] = useState<string>("");
+    const [content, setContent] = useState<string>("");
 
-    const {id} = useAppSelector(state=>state.userReducer);
+    const {id} = useAppSelector<User>(state=>state.userReducer);
+
+    const [addPost] = useAddPostMutation();
 
     const token = sessionStorage.getItem(SessionValues.JWT_AUTHORIZATION);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const response = (await axios.post(`http://localhost:8080/api/admin/post/add/${1}`, {
-                title: title,
-                content: content,
-            }, {
-                headers: {
-                    "Authorization": "Bearer_"+token,
-                    "Content-Type": "application/json",
-                    "Accept": "*/*"
-                }
-            }));
 
-            if(response.data)
-                console.log(response.data);
+            if(token !== null) {
+                const payload = {token: token, post: {title: title, content: content}, userId: id};
+
+                const response = (await addPost(payload).unwrap());
+
+                console.log(response);
+            }
         } catch (e: any) {
             console.log("ERROR " + e);
         }

@@ -1,68 +1,56 @@
 import React, {useState} from 'react';
-import axios from "axios";
-import {useCookies} from "react-cookie";
-import {Cookie} from "../../../types/cookie";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../../hooks/redux";
 import {userSlice} from "../../../store/reducers/userReducer";
-import JwtResponse from "../../../types/jwtResponse";
-import {Alert, Button, Form, FormControl, FormGroup, FormLabel, NavLink} from "react-bootstrap";
+import {Alert, Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {SessionValues} from "../../../resources/sessionValues";
+import {useLoginUserMutation} from "../../../store/api/userApi";
 
 const LoginForm: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const [loginText, setLoginText] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    const [withError, setWithError] = useState(false);
+    const [withError, setWithError] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
-    const {login} = userSlice.actions;
+    const [loginUser] = useLoginUserMutation();
 
-    // TODO
-    const submitUser = async (e: React.FormEvent) => {
+    const {init} = userSlice.actions;
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault();
 
-        if(!loginText || !password) {
+        if(!username || !password) {
             setWithError(true);
             return;
         }
 
         try {
-            const response = await (axios.post("http://localhost:8080/api/auth/login", {
-                username: loginText,
-                password: password
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "*/*"
-                }
-            }));
+            const response = await loginUser({username: username, password: password}).unwrap();
+            if(response) {
+                await dispatch(init(response));
 
-            const data: JwtResponse = response.data;
+                sessionStorage.setItem(SessionValues.JWT_AUTHORIZATION, response.token);
 
-            dispatch(login(data));
-
-            sessionStorage.setItem(SessionValues.JWT_AUTHORIZATION, data.token);
-
-            if(response.data) {
                 navigate("/");
             }
 
         } catch (e) {
-            console.log("Something went wrong... " + e);
+            console.log(e);
             setWithError(true);
         }
     }
 
     return (
-        <Form className="container" method="get" onSubmit={(e) => submitUser(e)}>
+        <Form className="container" method="get" onSubmit={(e) => handleSubmit(e)}>
             <h2>Login</h2>
-            { withError
+            {
+                withError
                 ?
               <Alert key="danger" variant="danger">Invalid username or password</Alert>
                 :
@@ -70,7 +58,7 @@ const LoginForm: React.FC = () => {
             }
             <FormGroup className="mb-3">
                 <FormLabel>Login</FormLabel>
-                <FormControl type="text" placeholder="Имя пользователя" value={loginText} onChange={(e)=>setLoginText(e.target.value)}/>
+                <FormControl type="text" placeholder="Имя пользователя" value={username} onChange={(e)=>setUsername(e.target.value)}/>
             </FormGroup>
             <FormGroup className="mb-3">
                 <FormLabel>Password</FormLabel>

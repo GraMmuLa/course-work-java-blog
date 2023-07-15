@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from "./Authenticated.module.css";
+import classes from "./Authenticated.module.css"
 
 const Authenticated: React.FC = () => {
     return (
