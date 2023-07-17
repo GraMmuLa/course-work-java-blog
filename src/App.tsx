@@ -13,6 +13,7 @@ import PrivateRoutes from "./components/CustomRoutes/PrivateRoutes";
 import PostList from "./components/Posts/PostList/PostList";
 import {useCheckTokenMutation} from "./store/api/userApi";
 import {JwtObject} from "./types/additional/jwtObject";
+import PostPage from "./components/Posts/PostPage/PostPage";
 
 function App() {
 
@@ -46,9 +47,10 @@ function App() {
               <Route path="/" element={<Layout/>}>
                   <Route index element={<PostList/>}/>
                   <Route path="post" element={<PostList/>}>
-                      <Route path=":id"/>
                       <Route path="all" element={<PostList/>}/>
                   </Route>
+
+                  <Route path="post/:id" element={<PostPage />}/>
 
                   <Route path="login" element={<LoginForm/>}/>
                   <Route path="register" element={<RegisterForm/>}/>

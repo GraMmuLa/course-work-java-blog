@@ -4,11 +4,13 @@ import {useAppSelector} from "../../../hooks/redux";
 import {SessionValues} from "../../../resources/sessionValues";
 import {User} from "../../../types/model/user";
 import {useAddPostMutation} from "../../../store/api/postApi";
+import {useNavigate} from "react-router-dom";
 
 const AddPostForm: React.FC = () => {
 
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
+    const [disabledButton, setDisabledButton] = useState<boolean>(false);
 
     const {id} = useAppSelector<User>(state=>state.userReducer);
 
@@ -16,18 +18,27 @@ const AddPostForm: React.FC = () => {
 
     const token = sessionStorage.getItem(SessionValues.JWT_AUTHORIZATION);
 
+    const navigate = useNavigate();
+
+
+
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
+
+        setDisabledButton(true);
+
         try {
 
             if(token !== null) {
                 const payload = {token: token, post: {title: title, content: content}, userId: id};
 
-                const response = (await addPost(payload).unwrap());
+                const response = await addPost(payload).unwrap();
 
-                console.log(response);
+                if(response)
+                    navigate("/")
             }
         } catch (e: any) {
+            setDisabledButton(false);
             console.log("ERROR " + e);
         }
     }
@@ -42,7 +53,7 @@ const AddPostForm: React.FC = () => {
                <FormLabel>Content</FormLabel>
                <FormControl as="textarea" rows={9} onChange={(e)=>{setContent(e.target.value);}}/>
             </FormGroup>
-            <Button type="submit" variant="success">Send</Button>
+            <Button type="submit" disabled={disabledButton} variant="success">Send</Button>
         </Form>
     );
 };

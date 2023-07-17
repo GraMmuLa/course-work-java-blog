@@ -1,7 +1,6 @@
 import React from 'react';
 import classes from './Header.module.css';
 import NavList from "./NavList/NavList";
-import Search from "./Search/Search";
 import Authenticated from "./Auth/Authenticated/Authenticated";
 import {threads} from "../../resources/threads";
 import NotAuthenticated from "./Auth/NotAuthenticated/NotAuthenticated";
@@ -26,7 +25,6 @@ const Header: React.FC = () => {
             <div className={classes.header__bottomBar}>
                 <NavList items={threads}/>
                 <div className={classes.header__right}>
-                    <Search/>
                     {
                         loggedIn
                         ?

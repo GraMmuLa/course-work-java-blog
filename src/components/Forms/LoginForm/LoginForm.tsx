@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {userSlice} from "../../../store/reducers/userReducer";
 import {Alert, Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {SessionValues} from "../../../resources/sessionValues";
@@ -12,14 +12,19 @@ const LoginForm: React.FC = () => {
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-
     const [withError, setWithError] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
+    const {loggedIn} = useAppSelector(state=>state.userReducer);
+
+    const {init} = userSlice.actions;
 
     const [loginUser] = useLoginUserMutation();
 
-    const {init} = userSlice.actions;
+    useEffect(()=>{
+        if(loggedIn)
+            navigate("/");
+    }, [loggedIn]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
